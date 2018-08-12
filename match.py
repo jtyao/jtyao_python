@@ -119,7 +119,10 @@ def get_match(page, year, league, stage):
             text.append(td.text())
 
         if len(text) == 11:
-            match = get_match_info(year, league, stage, text)
+            if text[3]:
+                match = get_match_info(year, league, stage, text)
+            else:
+                return
 
             for item in a.items():
                 url = item.attr('href')
