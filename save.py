@@ -1,5 +1,6 @@
 import pymongo
 import sys
+import config
 
 MONGO_URL = 'localhost'
 MONGO_DB = 'football_odds'
@@ -25,8 +26,9 @@ def save_to_mongo(match):
             return
         else:
             print("数据存储")
-            if collection.insert(match):
-                print('存储到MongoDB成功')
+#if collection.insert(match):
+#               print('存储到MongoDB成功')
+            config.match_total += 1
     except Exception:
         print('存储到MongoDB失败')
 

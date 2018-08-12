@@ -13,6 +13,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 #profile.update_preferences()
 #browser = webdriver.Firefox(profile)
 
+match_total = 0
 def get_webdriver():
     chrome_options = webdriver.ChromeOptions()
     chrome_options.add_argument('--headless')

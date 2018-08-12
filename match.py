@@ -14,16 +14,16 @@ import config
 import save
 from lxml import etree
 
-def get_match_info(year, stage, text):
+def get_match_info(year, league, stage, text):
     match = {
         'year': year,
         'stage': stage,
+        'league': league,
     }
 
-    match['league'] = text[0]
     match['date'] = text[1].replace("\n", " ", 1)
-    match['home_name'] = text[2].strip('21')
-    match['away_name'] = text[4].strip('21')
+    match['home_name'] = text[2].lstrip('21')
+    match['away_name'] = text[4].lstrip('21')
     match['score'] = text[3]
     match['half_score'] = text[10]
 
@@ -103,7 +103,7 @@ def get_over_down(url):
     odds_browser.close() 
     return odds
 
-def get_match(page, year, stage):
+def get_match(page, year, league, stage):
     html = etree.HTML(page.page_source)
     doc = pq(html)
     has_odds = False
@@ -120,7 +120,7 @@ def get_match(page, year, stage):
             text.append(td.text())
 
         if len(text) == 11:
-            match = get_match_info(year, stage, text)
+            match = get_match_info(year, league, stage, text)
 
             for item in a.items():
                 url = item.attr('href')

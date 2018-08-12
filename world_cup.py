@@ -30,7 +30,7 @@ def get_stage1(year, stage):
             EC.presence_of_element_located((By.CSS_SELECTOR, '#mainTableDiv')))
         print(group)
         time.sleep(random.randint(3, 8))
-        match.get_match(browser, year, stage)
+        match.get_match(browser, year, "世界杯", stage)
 
 def get_stage(year):
     for stage in range(0, 6):
@@ -48,26 +48,28 @@ def get_stage(year):
         if stage == 0:
             get_stage1(year, "小组赛")
         elif stage == 1:
-            match.get_match(browser, year, "16强")
+            match.get_match(browser, year, "世界杯", "16强")
         elif stage == 2:
-            match.get_match(browser, year, "8强")
+            match.get_match(browser, year, "世界杯", "8强")
         elif stage == 3:
-            match.get_match(browser, year, "4强")
+            match.get_match(browser, year, "世界杯", "4强")
         elif stage == 4:
-            match.get_match(browser, year, "季军赛")
+            match.get_match(browser, year, "世界杯", "季军赛")
         elif stage == 5:
-            match.get_match(browser, year, "决赛")
+            match.get_match(browser, year, "世界杯", "决赛")
 
 
 def index_year(year):
     print("正在爬取第", year, '年')
     try:
+        config.match_total = 0
         url = 'http://zq.win007.com/cn/CupMatch/%s/75.html' %(year)
         browser.get(url)
         check = wait.until(
             EC.presence_of_element_located((By.CSS_SELECTOR, '#SubSelectDiv')))
         get_stage(year)
-        browser.close() 
+        browser.close()
+        print("总场数：" + str(config.match_total))
     except TimeoutException:
         index_year(year)
 
