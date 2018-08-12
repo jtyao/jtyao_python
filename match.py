@@ -10,6 +10,7 @@ import re
 from selenium.webdriver.support.select import Select
 import time
 import random
+import config
 from lxml import etree
 
 def get_match_info(year, stage, text):
@@ -28,7 +29,7 @@ def get_match_info(year, stage, text):
     return match
 
 def get_odds(url):
-    odds_browser = webdriver.Firefox()
+    odds_browser = config.get_webdriver()
     odds_wait = WebDriverWait(odds_browser, 10)
 
     try:
@@ -66,7 +67,7 @@ def get_odds(url):
     return odds
 
 def get_over_down(url):
-    odds_browser = webdriver.Firefox()
+    odds_browser = config.get_webdriver()
     odds_wait = WebDriverWait(odds_browser, 10)
 
     try:

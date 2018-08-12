@@ -11,17 +11,10 @@ from selenium.webdriver.support.select import Select
 import match
 import time
 import random
+import config
 
 match_year = ['2018']
-#profile = webdriver.FirefoxProfile()
-#profile.set_preference('network.proxy.type', 1)
-#profile.set_preference('network.proxy.http', '117.127.0.205')
-#profile.set_preference('network.proxy.http_port', 80)
-#profile.set_preference('network.proxy.ssl', '117.127.0.205')
-#profile.set_preference('network.proxy.ssl_port', 80)
-#profile.update_preferences()
-#browser = webdriver.Firefox(profile)
-browser = webdriver.Chrome()
+browser = config.get_webdriver()
 wait = WebDriverWait(browser, 10)
 
 def get_stage1(year, stage):
