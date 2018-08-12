@@ -140,8 +140,7 @@ def get_match(page, year, stage):
 
             if match:
                 print(match)
-                while(1):
-                    save.save_match(match)
+                save.save_match(match)
         elif len(text) != 0:
             print("比赛数据错误")
             sys.exit()

@@ -16,12 +16,8 @@ def save_to_mongo(match):
     else:
         print("存储数据错误")
         sys.exit()
-    print(collection)
-    result = collection.find_one({'year': match['year'], 'date': match['data'],})
-#result = collection.find_one({'year': match['year'], 'date': match['data'], 'home_name':match['home_name']})
-    print(result)
-    while(1):
-        a = 0
+
+    result = collection.find_one({'year': match['year'], 'date': match['date'], 'home_name':match['home_name']})
 
     try:
         if result:
