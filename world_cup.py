@@ -67,6 +67,7 @@ def index_year(year):
         check = wait.until(
             EC.presence_of_element_located((By.CSS_SELECTOR, '#SubSelectDiv')))
         get_stage(year)
+        browser.close() 
     except TimeoutException:
         index_year(year)
 

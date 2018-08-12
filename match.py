@@ -11,6 +11,7 @@ from selenium.webdriver.support.select import Select
 import time
 import random
 import config
+import save
 from lxml import etree
 
 def get_match_info(year, stage, text):
@@ -137,7 +138,11 @@ def get_match(page, year, stage):
                     over_down = get_over_down(url)
                     match['over_down'] = over_down
 
-            print(match)
+            if match:
+                print(match)
+                while(1):
+                    save.save_match(match)
         elif len(text) != 0:
             print("比赛数据错误")
             sys.exit()
+        return match
