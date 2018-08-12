@@ -63,7 +63,7 @@ def get_odds(url):
 
     except TimeoutException:
         get_odds(url)
-    time.sleep(random.randint(3, 8)) 
+    time.sleep(random.randint(3, 8))
     odds_browser.close()
     return odds
 
@@ -99,8 +99,8 @@ def get_over_down(url):
 
     except TimeoutException:
         get_over_down(url)
-    time.sleep(random.randint(3, 8)) 
-    odds_browser.close() 
+    time.sleep(random.randint(3, 8))
+    odds_browser.close()
     return odds
 
 def get_match(page, year, league, stage):
@@ -110,7 +110,6 @@ def get_match(page, year, league, stage):
     has_OD = False
 
     items = doc('#Table3 tr a').parent().parent()
-
 
     for item in items.items():
         text = []
@@ -144,4 +143,4 @@ def get_match(page, year, league, stage):
         elif len(text) != 0:
             print("比赛数据错误")
             sys.exit()
-        return match
+    return match
