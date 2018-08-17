@@ -65,7 +65,7 @@ def get_odds(url):
 
     except TimeoutException:
         get_odds(url)
-    time.sleep(random.randint(3, 8))
+    time.sleep(random.randint(3, 5))
     odds_browser.close()
     return odds
 
@@ -101,7 +101,7 @@ def get_over_down(url):
 
     except TimeoutException:
         get_over_down(url)
-    time.sleep(random.randint(3, 8))
+    time.sleep(random.randint(3, 5))
     odds_browser.close()
     return odds
 
