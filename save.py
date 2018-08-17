@@ -19,7 +19,7 @@ def save_match(match):
         sys.exit()
 
     try:
-        if collection.insert(match):
+        #if collection.insert(match):
             print('存储到MongoDB成功')
             config.match_total += 1
     except Exception:

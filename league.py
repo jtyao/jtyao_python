@@ -14,27 +14,60 @@ import random
 import config
 
 leagues = [
+{'league': '日职联', 'year': ['2016'], 'max_stage': 34, 'url': 'http://zq.win007.com/cn/SubLeague/%s/25.html'},
             {'league': '法甲', 'year': ['2018-2019'], 'max_stage': 38, 'url': 'http://zq.win007.com/cn/League/%s/11.html'},
             {'league': '英超', 'year': ['2018-2019'], 'max_stage': 38, 'url': 'http://zq.win007.com/cn/League/%s/36.html'},
+            {'league': '西甲', 'year': ['2018-2019'], 'max_stage': 38, 'url': 'http://zq.win007.com/cn/League/%s/31.html'},
+            {'league': '德甲', 'year': ['2018-2019'], 'max_stage': 34, 'url': 'http://zq.win007.com/cn/League/%s/8.html'},
+            {'league': '意甲', 'year': ['2018-2019'], 'max_stage': 38, 'url': 'http://zq.win007.com/cn/League/%s/34.html'},
+            {'league': '捷甲', 'year': ['2018-2019'], 'max_stage': 30, 'url': 'http://zq.win007.com/cn/League/%s/137.html'},
             {'league': '中超', 'year': ['2018'], 'max_stage': 30, 'url': 'http://zq.win007.com/cn/League/%s/60.html'},
-            {'league': '日职联', 'year': ['2018'], 'max_stage': 34, 'url': 'http://zq.win007.com/cn/SubLeague/%s/25.html'},
+
             ]
 
+def get_sub_stage(browser, wait, year, league, parent_stage):
+    clicks = browser.find_elements(By.CSS_SELECTOR, '#showRound tr .lsm2')
+    stage_count = len(clicks)
+    if stage_count == 0:
+        ret = match.get_match(browser, year, league['league'], parent_stage)
+    else:
+        for stage in range(0, stage_count):
+            clicks = browser.find_elements(By.CSS_SELECTOR, '#showRound tr .lsm2')
+
+            clicks[stage].click()
+            check = wait.until(
+                EC.presence_of_element_located((By.CSS_SELECTOR, '#Table3')))
+            time.sleep(random.randint(3, 5))
+
+            if parent_stage == None:
+                stage_str = str(stage + 1)
+            else:
+                stage_str = parent_stage
+
+            ret = match.get_match(browser, year, league['league'], stage_str)
+            if ret == 'no_start':
+                break
+    return ret
+
 def get_stage(browser, wait, year, league):
-    for stage in range(0, league['max_stage']):
-        clicks = browser.find_elements(By.CSS_SELECTOR, '#showRound tr .lsm2')
+    clicks = browser.find_elements(By.CSS_SELECTOR, '#SubSelectDiv td[class^="cupmatch_rw2"]')
+    stage_count = len(clicks)
+    if stage_count == 0:
+        get_sub_stage(browser, wait, year, league, None)
+    else:
+        for stage in range(0, stage_count):
+            clicks = browser.find_elements(By.CSS_SELECTOR, '#SubSelectDiv td[class^="cupmatch_rw2"]')
+            stage_str = clicks[stage].text
+            clicks[stage].click()
 
-        if (len(clicks) != league['max_stage']):
-            print("页面按钮个数不对" + str(len(clicks)))
-            sys.exit()
+            check = wait.until(
+                EC.presence_of_element_located((By.CSS_SELECTOR, '#Table3')))
+            time.sleep(random.randint(3, 5))
 
-        clicks[stage].click()
-        check = wait.until(
-            EC.presence_of_element_located((By.CSS_SELECTOR, '#Table3')))
-        time.sleep(random.randint(3, 5))
-        ret = match.get_match(browser, year, league['league'], str(stage + 1))
-        if ret == 'no_start':
-            break
+            ret = get_sub_stage(browser, wait, year, league, stage_str)
+            if ret == 'no_start':
+                break
+
 
 def index_year(year, league):
     print("正在爬取 ", league['league'], " 第", year, '年')
