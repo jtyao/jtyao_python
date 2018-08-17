@@ -30,7 +30,9 @@ def get_stage(year):
         check = wait.until(
             EC.presence_of_element_located((By.CSS_SELECTOR, '#Table3')))
         time.sleep(random.randint(3, 8))
-        match.get_match(browser, year, "英超", str(stage + 1))
+        ret = match.get_match(browser, year, "英超", str(stage + 1))
+        if ret == 'no_start':
+            break
 
 def index_year(year):
     print("正在爬取第", year, '年')

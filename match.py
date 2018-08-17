@@ -21,9 +21,11 @@ def get_match_info(year, league, stage, text):
         'league': league,
     }
 
+    home_name = text[2].lstrip('21').split('[')
+    away_name = text[4].lstrip('21').split('[')
     match['date'] = text[1].replace("\n", " ", 1)
-    match['home_name'] = text[2].lstrip('21')
-    match['away_name'] = text[4].lstrip('21')
+    match['home_name'] = home_name[0]
+    match['away_name'] = away_name[0]
     match['score'] = text[3]
     match['half_score'] = text[10]
 
@@ -122,7 +124,7 @@ def get_match(page, year, league, stage):
             if text[3]:
                 match = get_match_info(year, league, stage, text)
             else:
-                return
+                return 'no_start'
 
             for item in a.items():
                 url = item.attr('href')
