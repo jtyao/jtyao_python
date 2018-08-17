@@ -123,6 +123,9 @@ def get_match(page, year, league, stage):
         if len(text) == 11:
             if text[3]:
                 match = get_match_info(year, league, stage, text)
+                is_exist = save.get_exist_state(match)
+                if is_exist == 'existed':
+                    continue
             else:
                 return 'no_start'
 

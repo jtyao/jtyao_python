@@ -7,7 +7,7 @@ MONGO_DB = 'football_odds'
 client = pymongo.MongoClient(MONGO_URL)
 db = client[MONGO_DB]
 
-def save_to_mongo(match):
+def save_match(match):
     """
     保存至MongoDB
     :param result: 结果
@@ -18,19 +18,21 @@ def save_to_mongo(match):
         print("存储数据错误")
         sys.exit()
 
-    result = collection.find_one({'year': match['year'], 'date': match['date'], 'home_name':match['home_name']})
-
     try:
-        if result:
-            print("数据重复")
-            return
-        else:
-            print("数据存储")
-#if collection.insert(match):
-#               print('存储到MongoDB成功')
+        if collection.insert(match):
+            print('存储到MongoDB成功')
             config.match_total += 1
     except Exception:
         print('存储到MongoDB失败')
 
-def save_match(match):
-    save_to_mongo(match)
+def get_exist_state(match):
+    if (match['league']):
+        collection = db[match['league']]
+    else:
+        print("存储数据错误")
+        sys.exit()
+
+    result = collection.find_one({'year': match['year'], 'date': match['date'], 'home_name':match['home_name']})
+    if result:
+        print("数据重复")
+        return 'existed'
